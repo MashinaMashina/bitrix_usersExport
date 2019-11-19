@@ -1,6 +1,6 @@
 <?php
 
-$doUsersPerRun = 1000; // ƒобавление пользователей за один запуск
+$doUsersPerRun = 1000; // Users per one script run
 $filename = 'users.csv';
 $delimiter = ";";
 
@@ -14,10 +14,10 @@ function user_validate($user)
 {
 	foreach($user as $k => &$v)
 	{
-		if($v === 'ID')
+		if ($v === 'ID')
 			$v = 'USER_ID'; // excel bug fix (https://anti-anti-life.livejournal.com/28698.html)
 		
-		if(is_object($v) and is_callable([$v, 'toString']))
+		if (is_object($v) and is_callable([$v, 'toString']))
 		{
 			$v = $v->toString();
 		}
@@ -50,7 +50,7 @@ $params = [
 ];
 $users = Bitrix\Main\UserTable::GetList($params);
 
-if($needsHeader)
+if ($needsHeader)
 {
 	unlink(__DIR__.'/'.$filename);
 }
@@ -63,7 +63,7 @@ while($user = $users->fetch())
 	$c++;
 	unset($user['PASSWORD']);
 	
-	if($needsHeader)
+	if ($needsHeader)
 	{
 		$needsHeader = false;
 		$arrHeaderCSV = array_keys($user);
@@ -78,7 +78,7 @@ while($user = $users->fetch())
 fclose($fp);
 
 $success = false;
-if($c === 0)
+if ($c === 0)
 {
 	$success = true;
 }
